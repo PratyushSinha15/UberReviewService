@@ -14,30 +14,19 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@EntityListeners(AuditingEntityListener.class)// This enables auditing for this entity meaning giving auto date and time
-@Table(name="bookingreview")
-public class Review {
-    @Id // this annottation make the id as primary key of our review table
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //identity means auto increment
-    private Long id;
+@Table(name="booking_review")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Review extends BaseModel {
+
 
     @Column(nullable = false)
     private String content;
 
-
     private Double rating;
-
-    @Column(updatable = false)
-    @CreatedDate // will be auto set only once at creation
-    private Date createdAt;
-
-    @Column(updatable = false)
-    @LastModifiedDate
-    private Date updatedAt;
 
     @Override
     public String toString(){
-        return "Review :"+ this.content + " with Rating: "+this.rating;
+        return "Review :"+ this.content + " with Rating: "+this.rating+  ""+ this.createdAt;
     }
 }
 // this model layer is just a view of our database
