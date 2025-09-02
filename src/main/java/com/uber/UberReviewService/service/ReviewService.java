@@ -1,6 +1,8 @@
 package com.uber.UberReviewService.service;
 
+import com.uber.UberReviewService.models.Booking;
 import com.uber.UberReviewService.models.Review;
+import com.uber.UberReviewService.repositories.BookingRepository;
 import com.uber.UberReviewService.repositories.ReviewRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
@@ -8,14 +10,17 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReviewService implements CommandLineRunner {
 
     private final ReviewRepository reviewRepository;
+    private final BookingRepository bookingRepository;
 
-    public ReviewService(ReviewRepository reviewRepository){
+    public ReviewService(ReviewRepository reviewRepository, BookingRepository bookingRepository){
         this.reviewRepository=reviewRepository;
+        this.bookingRepository = bookingRepository;
     }
 
     @Override
@@ -28,13 +33,23 @@ public class ReviewService implements CommandLineRunner {
 //                .content("Well its working good")
 //                .rating(8.8)
 //                .build();
-//        System.out.println(r);
-//        reviewRepository.save(r);
-//        List<Review> reviews= reviewRepository.findAll();
-//        for(Review review: reviews){
-//            System.out.println(review.getContent());
-//        }
-        reviewRepository.deleteById(2L);
+//        Booking b= Booking
+//                .builder()
+//                .startDate(new Date())
+//                .review(r)
+//                .endDate(new Date())
+//                .build();
+//        System.out.println("Review : "+r);
+//        System.out.println("Booking : "+b);
+//        bookingRepository.save(b);
+
+
+
+//        reviewRepository.deleteById(2L);
+        Optional<Booking> b=bookingRepository.findById(6L);
+        if(b.isPresent()){
+            bookingRepository.delete(b.get());
+        }
         List<Review> reviews= reviewRepository.findAll();
         for(Review review: reviews){
             System.out.println(review.getContent());
